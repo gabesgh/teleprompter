@@ -59,6 +59,28 @@ Controls fade out while playing and come back when you move the mouse.
 
 There's a sample script in [`samples/demo.txt`](samples/demo.txt) to try things out with.
 
+## iPhone app
+
+The same repo also has an iPhone version (`TeleprompterCam`) built for one specific
+trick: **read the prompter while the rear cameras record you.** Prop the phone up,
+and if it's a foldable opened flat, the cover screen and the main cameras face you
+together, so you get the good lenses *and* a screen to read from.
+
+- The whole screen is the prompter; a small live camera window sits in a corner
+  (top-right by default, closest to the cameras). Drag it to any corner, pinch it to
+  zoom, double-tap to make it bigger.
+- Lens buttons under the camera window (0.5× / 1× / 2× / 5×, depending on the phone)
+  switch lenses cleanly, so 2× is the real 2× crop, not a blurry digital zoom.
+- Record in-app: big red button, timer, 1080p or 4K, saved straight to Photos with
+  audio. Recordings stay level with the horizon in any orientation.
+- Same prompter engine as the Mac app: speed and size steppers, reading guide, mirror
+  mode, progress track, import from Files / paste / type it in. Tap the text to hide
+  the controls; the screen stays awake while the app is open.
+
+It isn't on the App Store. To put it on your phone: open `Teleprompter.xcodeproj` in
+Xcode, pick the **TeleprompterCam** scheme, set your team under *Signing &
+Capabilities* (a free Apple ID works), plug in your iPhone and press Run.
+
 ## Building from source
 
 Open `Teleprompter.xcodeproj` in Xcode 15 or newer and press Run. No signing setup

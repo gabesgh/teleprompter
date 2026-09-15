@@ -1,10 +1,13 @@
 // Generates the AppIcon PNGs: dark rounded tile with faded text lines and an
 // orange reading-guide marker on the active line.
-// Usage: swift tools/make-icon.swift <output dir>
+// Usage: swift tools/make-icon.swift <output dir>            (macOS: rounded tile, transparent corners)
+//        swift tools/make-icon.swift <output dir> --ios      (iOS: opaque 1024px square, iOS rounds it)
 import AppKit
 
-let outDir = CommandLine.arguments.count > 1 ? CommandLine.arguments[1] : "."
-let sizes = [16, 32, 64, 128, 256, 512, 1024]
+let args = CommandLine.arguments.dropFirst()
+let iOS = args.contains("--ios")
+let outDir = args.first(where: { !$0.hasPrefix("--") }) ?? "."
+let sizes = iOS ? [1024] : [16, 32, 64, 128, 256, 512, 1024]
 
 func render(_ px: Int) -> Data {
     let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: px, pixelsHigh: px,
@@ -15,9 +18,10 @@ func render(_ px: Int) -> Data {
     NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: rep)
 
     let s = CGFloat(px)
-    let inset = s * 0.075
+    let inset = iOS ? 0 : s * 0.075
     let tile = NSRect(x: inset, y: inset, width: s - 2 * inset, height: s - 2 * inset)
-    let path = NSBezierPath(roundedRect: tile, xRadius: s * 0.19, yRadius: s * 0.19)
+    let radius = iOS ? 0 : s * 0.19
+    let path = NSBezierPath(roundedRect: tile, xRadius: radius, yRadius: radius)
     NSGradient(starting: NSColor(calibratedRed: 0.17, green: 0.17, blue: 0.20, alpha: 1),
                ending: NSColor(calibratedRed: 0.04, green: 0.04, blue: 0.05, alpha: 1))!
         .draw(in: path, angle: -90)

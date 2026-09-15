@@ -56,11 +56,60 @@ targets:
         COMBINE_HIDPI_IMAGES: YES
         ENABLE_PREVIEWS: YES
 
+  TeleprompterCam:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: TeleprompterCam
+        excludes:
+          - "Info.plist"
+    info:
+      path: TeleprompterCam/Info.plist
+      properties:
+        CFBundleName: Teleprompter
+        CFBundleDisplayName: Teleprompter
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        UILaunchScreen: {}
+        UIStatusBarHidden: true
+        UIViewControllerBasedStatusBarAppearance: true
+        UIRequiresFullScreen: false
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        NSCameraUsageDescription: Teleprompter shows a live preview and records video with the camera while you read.
+        NSMicrophoneUsageDescription: Teleprompter records sound along with your video.
+        NSPhotoLibraryAddUsageDescription: Teleprompter saves your recordings to your photo library.
+        ITSAppUsesNonExemptEncryption: false
+        LSApplicationCategoryType: public.app-category.productivity
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.gshimoon.TeleprompterCam
+        PRODUCT_NAME: Teleprompter
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        GENERATE_INFOPLIST_FILE: NO
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SUPPORTS_MACCATALYST: NO
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "Apple Development"
+        ENABLE_PREVIEWS: YES
+
 schemes:
   Teleprompter:
     build:
       targets:
         Teleprompter: all
+    run:
+      config: Debug
+    archive:
+      config: Release
+  TeleprompterCam:
+    build:
+      targets:
+        TeleprompterCam: all
     run:
       config: Debug
     archive:

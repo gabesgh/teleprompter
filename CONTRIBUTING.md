@@ -16,13 +16,24 @@ The Xcode project is generated from `project.yml` with
 either add them through Xcode or run `xcodegen` to regenerate the project.
 Both are fine, just commit the resulting `.xcodeproj` alongside your change.
 
-Everything that matters lives in `Teleprompter/`:
+Two targets share the project: `Teleprompter` (macOS) and `TeleprompterCam` (iOS).
+The iOS target needs a signing team set in Xcode to run on a device; the simulator
+build in CI runs unsigned.
+
+The Mac app lives in `Teleprompter/`:
 
 - `PrompterModel.swift`: state, the scroll engine, import, window features, keyboard shortcuts, persistence
 - `ContentView.swift`: the main window (scrolling text, guide line, drag & drop)
 - `ControlsOverlay.swift`: toolbars, transport, sliders, progress track
 - `ScriptEditorView.swift`: the editor window
 - `AppCommands.swift`: menu bar
+
+The iPhone app lives in `TeleprompterCam/`:
+
+- `PrompterEngine.swift`: the same scroll engine and script handling, without the AppKit window code
+- `CameraController.swift`: AVFoundation session, lens-aware zoom, rotation, recording, saving to Photos
+- `CameraWindow.swift`: the draggable/pinchable preview window and lens buttons
+- `ControlsOverlay.swift`, `Sheets.swift`, `ContentView.swift`: the UI
 
 ## Releasing
 
