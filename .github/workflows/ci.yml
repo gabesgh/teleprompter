@@ -1,0 +1,21 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build (Release, universal)
+        run: |
+          xcodebuild -project Teleprompter.xcodeproj -scheme Teleprompter \
+            -configuration Release -destination 'platform=macOS' \
+            -derivedDataPath build/DerivedData \
+            ONLY_ACTIVE_ARCH=NO ARCHS="arm64 x86_64" \
+            CODE_SIGN_IDENTITY=- -quiet build
+          lipo -info build/DerivedData/Build/Products/Release/Teleprompter.app/Contents/MacOS/Teleprompter

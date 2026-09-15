@@ -1,0 +1,15 @@
+Welcome to the teleprompter.
+
+This is a sample script so you can try the controls right away. Press the space bar to start and stop the scroll. Use the up and down arrow keys to speed up or slow down, and the left and right arrows to jump back or ahead a little.
+
+The orange line near the top is your reading guide. The text you are speaking right now should sit on that line, so keep your eyes there and let the words come to you. If you would rather not see the guide, press G to hide it.
+
+You can make the text bigger or smaller with the plus and minus keys, or with the Size slider at the bottom. The speed is tied to the text size, so if you make the text larger the pace you read at stays the same.
+
+Press F to go full screen when you are recording, and press it again, or hit Escape, to come back. If you would like the prompter to stay above your other windows while you work in Zoom or a browser, turn on Float on Top from the pin button or the Display menu.
+
+Try shrinking this window down small. The toolbar disappears and you are left with just the text, a play button, and the progress bar on the right edge. Drag that bar to jump anywhere in the script.
+
+To load your own script, drop a text file onto the window, press Command O to import a file, or press Command E to type it in directly.
+
+That is everything. Good luck with the recording.

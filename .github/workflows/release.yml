@@ -1,0 +1,52 @@
+# Push a tag like v1.2.0 and this builds a universal Teleprompter.app,
+# zips it, and attaches it to a GitHub Release.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Work out version from tag
+        id: version
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "marketing=${TAG#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Build (Release, universal)
+        run: |
+          xcodebuild -project Teleprompter.xcodeproj -scheme Teleprompter \
+            -configuration Release -destination 'platform=macOS' \
+            -derivedDataPath build/DerivedData \
+            ONLY_ACTIVE_ARCH=NO ARCHS="arm64 x86_64" \
+            MARKETING_VERSION="${{ steps.version.outputs.marketing }}" \
+            CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
+            CODE_SIGN_IDENTITY=- -quiet build
+
+      - name: Package
+        run: |
+          APP=build/DerivedData/Build/Products/Release/Teleprompter.app
+          lipo -info "$APP/Contents/MacOS/Teleprompter"
+          ditto -c -k --sequesterRsrc --keepParent "$APP" "Teleprompter-${{ steps.version.outputs.marketing }}.zip"
+          shasum -a 256 Teleprompter-*.zip > checksums.txt
+          cat checksums.txt
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ steps.version.outputs.tag }}" \
+            Teleprompter-*.zip checksums.txt \
+            --title "Teleprompter ${{ steps.version.outputs.marketing }}" \
+            --generate-notes \
+            --notes-file .github/release-notes.md

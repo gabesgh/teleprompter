@@ -1,0 +1,5 @@
+build/
+dist/
+xcuserdata/
+*.xcworkspace/xcshareddata/
+.DS_Store
